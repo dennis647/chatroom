@@ -1,11 +1,13 @@
 body {
   background-color:rgb(251, 224, 184);
+  display: flex;;
 }
 
 #sidepage1{
-  position: absolute;
-  height:93%;
-  width: 300px;
+  flex: 1;
+  max-width: 30vh;
+  height: 93vh;
+  width: 10vh;
   margin: 10px;
   margin-left: 10px;
   background-color: rgb(162, 181, 201);
@@ -15,4 +17,43 @@ body {
 }
 #fieldsetSide {
 
+}
+.txtspace{
+  margin: 3px;
+  padding: 0px;
+}
+
+.chatroom1 {
+  flex: 2;
+  background-color: tan;
+  border-radius: 10px;
+  margin-left: 10vh;
+  margin-top: 1vh;
+  padding: 12px;
+  max-width: 140vh;
+  height: 93vh;
+  border: 3px solid rgb(186, 159, 123);
+}
+.messageContainer {
+  background-color: rgb(238, 234, 234);
+  padding: 10px;
+  border-radius: 8px;
+  height: 75vh; 
+  overflow-y: auto;
+}
+#messageInputTxt {
+  background-color: rgb(238, 234, 234);
+  padding: 15px;
+  border-radius: 18px;
+  margin-top: 5px;
+  height: 5vh; 
+  width: 124vh;
+  overflow-y: auto;
+} 
+#messageInputBtn {
+  height: 6vh;
+  width: 10vh;
+  border-radius: 18px;
+  padding: 15px;
+  background-color:rgb(199, 197, 197);  
 }
