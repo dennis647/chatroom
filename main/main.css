@@ -1,0 +1,18 @@
+body {
+  background-color:rgb(251, 224, 184);
+}
+
+#sidepage1{
+  position: absolute;
+  height:93%;
+  width: 300px;
+  margin: 10px;
+  margin-left: 10px;
+  background-color: rgb(162, 181, 201);
+  border-radius: 10px;
+  padding: 15px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#fieldsetSide {
+
+}
