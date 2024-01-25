@@ -38,6 +38,34 @@
 
   </div>
 
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQZGdqHihNGbuhmwzO-rL7SH4qoElo1Vc",
+      authDomain: "chatroom-8242c.firebaseapp.com",
+      databaseURL: "https://chatroom-8242c-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "chatroom-8242c",
+      storageBucket: "chatroom-8242c.appspot.com",
+      messagingSenderId: "256590892317",
+      appId: "1:256590892317:web:4917a7f2e6117cb09b65f4",
+      measurementId: "G-LS8QHLL32M"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    console.log("Firebase connected successfully!")
+  </script>
+  <!-- Add Firebase SDK scripts -->
+<script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js"></script>
+
+<script src="main/main.js"></script>
 
   <script src="main/main.js"></script>
 </body>
