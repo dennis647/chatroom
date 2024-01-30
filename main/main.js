@@ -1,4 +1,11 @@
+var database = firebase.database();
 
+database.ref('data').set({
+  name: 'Ola Normann',
+  age: 19
+});
+
+/*
 // Get a reference to the authentication service and database
 
   firebase.auth().onAuthStateChanged((user) => {
@@ -52,3 +59,4 @@
     message: "Hello, Firebase!",
     timestamp: firebase.database.ServerValue.TIMESTAMP,
   });
+*/
