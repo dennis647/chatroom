@@ -23,7 +23,7 @@ body {
   padding: 0px;
 }
 
-.chatroom1 {
+#chatroom1 {
   flex: 2;
   background-color: tan;
   border-radius: 10px;
@@ -34,7 +34,7 @@ body {
   height: 93vh;
   border: 3px solid rgb(186, 159, 123);
 }
-.messageContainer {
+#messageContainer {
   background-color: rgb(238, 234, 234);
   padding: 10px;
   border-radius: 8px;

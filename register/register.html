@@ -9,19 +9,22 @@
 </head>
 <body>
 
-    <h3 style="text-align: center;">Registrer ny bruker</h3>
+    <h3>Registrer ny bruker</h3>
     <br>
 
     <div>
     
-      <input type="text" value="Brukernavn" id="loginUsername">
-      <input type="password" value="Passord" id="loginPassword"><br>
-      <input type="button" value="Login" id="loginBtn">
+      <input type="text" placeholder="E-mail" id="registerEmail" class="register"><br>
+      <input type="text" placeholder="Brukernavn" id="registerUsern" class="register"><br>
+      <input type="password" placeholder="Passord" id="registerPassword" class="register"><br>
+      <input type="button" value="Registrer" id="registerBtn" style="padding: 10px; border-radius: 5px; background-color: rgb(195, 198, 198);">
       
     </div>
 
-
-  <script src="main/main.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="register.js" type="module"></script>
 </body>
 
 </html>
