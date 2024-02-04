@@ -66,6 +66,7 @@ const registerUser = () => {
   })
   }
 
+  // Validate if email is a valid email
 const validate_email = (email) => {
   var expression = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   if (expression.test(email) == true) {
@@ -75,6 +76,7 @@ const validate_email = (email) => {
   }
 }
 
+// Check if the fields have input
  const validateField = (field) => {
   if (field == null || field <= 0 ) {
     return false;
@@ -83,4 +85,5 @@ const validate_email = (email) => {
   }
  }
 
+ // Button on click
  registerBtn.addEventListener("click", registerUser);
