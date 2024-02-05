@@ -1,9 +1,9 @@
 body {
-  background-color:rgb(251, 224, 184);
-  display: flex;;
+  background-color: rgb(251, 224, 184);
+  display: flex;
 }
 
-#sidepage1{
+#sidepage1 {
   flex: 1;
   max-width: 30vh;
   height: 93vh;
@@ -15,10 +15,10 @@ body {
   padding: 15px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-#fieldsetSide {
 
-}
-.txtspace{
+#fieldsetSide {}
+
+.txtspace {
   margin: 3px;
   padding: 0px;
 }
@@ -34,26 +34,56 @@ body {
   height: 93vh;
   border: 3px solid rgb(186, 159, 123);
 }
+
+
 #messageContainer {
-  background-color: rgb(238, 234, 234);
   padding: 10px;
-  border-radius: 8px;
-  height: 75vh; 
+  height: 75vh;
   overflow-y: auto;
+  background-color: white;
+  border-radius: 15px;
 }
+
+.reciveMessage-bubble {
+  background-color: rgb(188, 203, 249);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+  max-width: 70%;
+}
+
+.sendMessage-bubble {
+  background-color: rgb(67, 238, 147);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+  max-width: 70%;
+  margin-left: auto;
+  margin-right: 0px;
+}
+
+.user-message {
+  align-self: flex-end;
+}
+
+#logoutBtn {
+  display: block;
+}
+
 #messageInputTxt {
   background-color: rgb(238, 234, 234);
   padding: 15px;
   border-radius: 18px;
   margin-top: 5px;
-  height: 5vh; 
+  height: 5vh;
   width: 124vh;
   overflow-y: auto;
-} 
+}
+
 #messageInputBtn {
   height: 6vh;
   width: 10vh;
   border-radius: 18px;
   padding: 15px;
-  background-color:rgb(199, 197, 197);  
+  background-color: rgb(199, 197, 197);
 }
