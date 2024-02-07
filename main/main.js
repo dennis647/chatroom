@@ -5,8 +5,9 @@ const sendMsgBtn = document.getElementById("messageInputBtn");
 const messageText = document.getElementById("messageInputTxt");
 const loginBtn = document.getElementById("loginBtn");
 const loginTxt = document.getElementById("loginTxt");
-const messageContainer = document.getElementById("messageContainer");
 const logoutBtn = document.getElementById("logoutBtn");
+const messageContainer = document.getElementById("messageContainer");
+const chatroomsList = document.getElementById("chatroomsList");
 
 // Firebase config
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js';
@@ -34,8 +35,8 @@ const db = firebase.database();
 // Function for logging into existing user
 const loginUser = () => {
 
-  var Email = enterUsername.value;
-  var Password = enterPassword.value;
+  const Email = enterUsername.value;
+  const Password = enterPassword.value;
 
   if (validateField(Email) == false || validateField(Password) == false) {
     alert('You need to type in a username & password');
@@ -53,7 +54,6 @@ auth.signInWithEmailAndPassword(Email, Password)
   dbRef.once("value")
   .then(function (snapshot) {
     var userData = snapshot.val();
-    var lastLogin = userData.lastLogin;
 
     loginTxt.innerHTML = `Welcome, ${userData.newUsername}`;
 
@@ -71,6 +71,27 @@ auth.signInWithEmailAndPassword(Email, Password)
 });
 
 }
+
+// Logout current user
+const logoutUser = () => {
+  auth.signOut()
+    .then(() => {
+      alert("User logged out successfully.");
+    })
+    .catch((error) => {
+      alert("Error logging out: " + error.message);
+    });
+};
+
+// Select chatroom
+const switchChatroom = (chatroomId) => {
+  const chatrooms = document.querySelectorAll('.chatroom');
+  chatrooms.forEach((chatroom) => {
+    chatroom.style.display = 'none';
+  });
+  const selectedChatroom = document.getElementById(chatroomId);
+  selectedChatroom.style.display = 'block';
+};
 
 // Function for sending messages
 const sendMsgFunc = () => {
@@ -92,7 +113,7 @@ const sendMsgFunc = () => {
         messageContainer.appendChild(messageElement);
 
         // Save the message 
-        set(ref(database, "messages/" + timestamp), {
+        set(ref(database, "messages/" + "chatroom1/" + timestamp), {
           userName: userName,
           message: message
         });
@@ -109,10 +130,8 @@ const sendMsgFunc = () => {
 auth.onAuthStateChanged((user) => {
   // Update UI based on the user's login state
   updateUI(user);
-  messageContainer.innerHTML = "";
-
   if (user) {
-    const messagesRef = ref(database, "messages/");
+    const messagesRef = ref(database, "messages/chatroom1/");
     onChildAdded(messagesRef, receiveMsgFunc);
   }
 });
@@ -122,25 +141,31 @@ const receiveMsgFunc = (snapshot) => {
   var messageData = snapshot.val();
   var userName = messageData.userName;
   var message = messageData.message;
-
-  // Create recived msg div
   var messageElement = document.createElement("div");
-  messageElement.textContent = `${userName}: ${message}`;
-  messageElement.classList.add("reciveMessage-bubble");
+  var currentUser = auth.currentUser;
+  
+  var currentUserRef = db.ref("users/" + currentUser.uid);
+  currentUserRef.once("value")
+    .then(function(snapshot) {
 
-  messageContainer.appendChild(messageElement);
-};
+      var currentUserName = snapshot.val().newUsername;
+      if (userName !== currentUserName) {
+        messageElement.textContent = `${userName}: ${message}`;
+        messageElement.classList.add("reciveMessage-bubble");
+        
+        var chatroomId = messageData.chatroomId;
+        var messageContainerId = "messageContainer" + chatroomId.slice(-1); 
+        var messageContainer = document.getElementById(messageContainerId);
+        
 
-// Logout current user
-const logoutUser = () => {
-  auth.signOut()
-    .then(() => {
-      alert("User logged out successfully.");
+        messageContainer.appendChild(messageElement);
+      }
     })
-    .catch((error) => {
-      alert("Error logging out: " + error.message);
+    .catch(function(error) {
+      console.log("Error fetching current user data: " + error.message);
     });
 };
+
 
 
 // Check if user is logged in or not
@@ -167,6 +192,7 @@ const updateUI = (user) => {
     logoutBtn.style.display='none';
   }
 };
+
 auth.onAuthStateChanged((user) => {
   updateUI(user);
 });
@@ -180,6 +206,15 @@ const validateField = (field) => {
  }
 
  // Eventslisteners for button onclicks.
-sendMsgBtn.addEventListener("click", sendMsgFunc);
 loginBtn.addEventListener("click", loginUser);
 logoutBtn.addEventListener("click", logoutUser);
+
+chatroomsList.addEventListener('click', (event) => {
+  console.log('Button clicked'); // Debugging statement
+  if (event.target.classList.contains('chatroomBtn')) {
+    const chatroomId = event.target.dataset.chatroom;
+    console.log('Selected chatroom:', chatroomId); // Debugging statement
+    switchChatroom(chatroomId);
+    receiveMsgFunc(chatroomId);
+  }
+});

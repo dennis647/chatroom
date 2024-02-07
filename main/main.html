@@ -29,23 +29,35 @@
     <br>
     <h5 id="loginTxt"></h5>
     <input type="button" value="Log out" id="logoutBtn">
+    <br>
+    <div id="chatroomsList">
+      <button class="chatroomBtn" data-chatroom="chatroom1">Chatroom 1</button>
+      <button class="chatroomBtn" data-chatroom="chatroom2">Chatroom 2</button>
+    </div>
   </div>
 
-  <div id="chatroom1">
-
+  <div id="chatroom1" class="chatroom">
     <h3 style="text-align: center;">Chatroom 1</h3>
-    <div id="messageContainer"></div>
-
-  <div id="sentMsg">
-
+    <div id="messageContainer1" class="messageContainer"></div>
+    <div id="sentMsg1"></div>
+      <div id="messageInputDiv1" class="messageInputDiv">
+        <input type="text" placeholder="Skriv din melding her..." id="messageInputTxt1" class="messageInputTxt">
+        <input type="button" value="Send" id="messageInputBtn1" class="messageInputBtn">
+      </div>
   </div>  
 
-    <div id="messageInputDiv">
-      <input type="text" placeholder="Skriv din melding her..." id="messageInputTxt">
-      <input type="button" value="Send" id="messageInputBtn">
+  <div id="chatroom2" class="chatroom">
+    <h3 style="text-align: center;">Chatroom 2</h3>
+    <div id="messageContainer2" class="messageContainer"></div>
+    <div id="sentMsg2"></div>  
+    <div id="messageInputDiv2" class="messageInputDiv">
+      <input type="text" placeholder="Skriv din melding her..." id="messageInputTxt2" class="messageInputTxt">
+      <input type="button" value="Send" id="messageInputBtn2" class="messageInputBtn">
     </div>
-
   </div>
+
+
+
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>

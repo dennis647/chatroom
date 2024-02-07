@@ -16,11 +16,45 @@ body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-#fieldsetSide {}
+#fieldsetSide {
+  border: none;
+  padding: 10px;
+}
+#loginUsername, #loginPassword {
+  flex: 1;
+  width: 12vw;
+}
+
+#chatroomsList {
+  margin-top: 34vh;
+}
+
+.chatroomBtn {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chatroomBtn:hover {
+  background-color: #f0f0f0;
+}
 
 .txtspace {
   margin: 3px;
   padding: 0px;
+}
+
+.chatroom {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #chatroom1 {
@@ -35,8 +69,20 @@ body {
   border: 3px solid rgb(186, 159, 123);
 }
 
+#chatroom2 {
+  flex: 2;
+  background-color: tan;
+  border-radius: 10px;
+  margin-left: 10vh;
+  margin-top: 1vh;
+  padding: 12px;
+  max-width: 140vh;
+  height: 93vh;
+  border: 3px solid rgb(186, 159, 123);
+}
 
-#messageContainer {
+
+.messageContainer {
   padding: 10px;
   height: 75vh;
   overflow-y: auto;
@@ -70,7 +116,7 @@ body {
   display: block;
 }
 
-#messageInputTxt {
+.messageInputTxt {
   background-color: rgb(238, 234, 234);
   padding: 15px;
   border-radius: 18px;
@@ -80,10 +126,11 @@ body {
   overflow-y: auto;
 }
 
-#messageInputBtn {
+.messageInputBtn {
   height: 6vh;
   width: 10vh;
   border-radius: 18px;
   padding: 15px;
   background-color: rgb(199, 197, 197);
+  cursor: pointer;
 }
