@@ -1,12 +1,11 @@
 // Get elements
 const enterUsername = document.getElementById("loginUsername");
 const enterPassword = document.getElementById("loginPassword");
-const sendMsgBtn = document.getElementById("messageInputBtn");
-const messageText = document.getElementById("messageInputTxt");
+const sendMsgBtn1 = document.getElementById(`messageInputBtnchatroom1`);
+const sendMsgBtn2 = document.getElementById(`messageInputBtnchatroom2`);
 const loginBtn = document.getElementById("loginBtn");
 const loginTxt = document.getElementById("loginTxt");
 const logoutBtn = document.getElementById("logoutBtn");
-const messageContainer = document.getElementById("messageContainer");
 const chatroomsList = document.getElementById("chatroomsList");
 
 // Firebase config
@@ -89,21 +88,32 @@ const switchChatroom = (chatroomId) => {
   chatrooms.forEach((chatroom) => {
     chatroom.style.display = 'none';
   });
+  
+  // Check if there is an element with the class 'active-chatroom'
+  const activeChatroom = chatroomsList.querySelector('.active-chatroom');
+  if (activeChatroom) {
+    activeChatroom.classList.remove('active-chatroom');
+  }
+  
   const selectedChatroom = document.getElementById(chatroomId);
   selectedChatroom.style.display = 'block';
+  chatroomsList.querySelector(`[data-chatroom="${chatroomId}"]`).classList.add('active-chatroom');
 };
 
+
 // Function for sending messages
-const sendMsgFunc = () => {
+const sendMsgFunc = (chatroomId) => {
+  const messageText = document.getElementById(`messageInputTxt${chatroomId}`);
   var message = messageText.value;
   var timestamp = new Date().getTime();
 
+  // Retrieve the username from DB
   if (auth.currentUser) {
-    // Retrieve the username from DB
     var userRef = db.ref("users/" + auth.currentUser.uid);
     userRef.once("value")
       .then(function (snapshot) {
         var userName = snapshot.val().newUsername;
+        const messageContainer = document.getElementById(`messageContainer${chatroomId}`);
 
         // Create a message div
         var messageElement = document.createElement("div");
@@ -113,7 +123,7 @@ const sendMsgFunc = () => {
         messageContainer.appendChild(messageElement);
 
         // Save the message 
-        set(ref(database, "messages/" + "chatroom1/" + timestamp), {
+        set(ref(database, `messages/${chatroomId}/` + timestamp), {
           userName: userName,
           message: message
         });
@@ -127,45 +137,37 @@ const sendMsgFunc = () => {
 };
 
 
-auth.onAuthStateChanged((user) => {
-  // Update UI based on the user's login state
-  updateUI(user);
-  if (user) {
-    const messagesRef = ref(database, "messages/chatroom1/");
-    onChildAdded(messagesRef, receiveMsgFunc);
-  }
-});
 
 // Reciving messages
-const receiveMsgFunc = (snapshot) => {
-  var messageData = snapshot.val();
-  var userName = messageData.userName;
-  var message = messageData.message;
+const receiveMsgFunc = (chatroomId) => {
   var messageElement = document.createElement("div");
-  var currentUser = auth.currentUser;
-  
-  var currentUserRef = db.ref("users/" + currentUser.uid);
-  currentUserRef.once("value")
-    .then(function(snapshot) {
 
-      var currentUserName = snapshot.val().newUsername;
-      if (userName !== currentUserName) {
-        messageElement.textContent = `${userName}: ${message}`;
-        messageElement.classList.add("reciveMessage-bubble");
-        
-        var chatroomId = messageData.chatroomId;
-        var messageContainerId = "messageContainer" + chatroomId.slice(-1); 
-        var messageContainer = document.getElementById(messageContainerId);
-        
+  const messagesRef = ref(database, `messages/${chatroomId}/`);
+  onChildAdded(messagesRef, (snapshot) => {
+    var messageData = snapshot.val();
+    var userName = messageData.userName;
+    var message = messageData.message;
 
-        messageContainer.appendChild(messageElement);
-      }
-    })
-    .catch(function(error) {
-      console.log("Error fetching current user data: " + error.message);
-    });
+    messageElement.textContent = `${userName}: ${message}`;
+    messageElement.classList.add("reciveMessage-bubble");
+
+    const messageContainer = document.getElementById(`messageContainer${chatroomId}`);
+    messageContainer.appendChild(messageElement);
+  });
 };
 
+
+// Update UI based on the user's login state
+auth.onAuthStateChanged((user) => {
+  updateUI(user);
+  if (user) {
+    const messagesRef1 = ref(database, "messages/chatroom1/");
+    onChildAdded(messagesRef1, () => receiveMsgFunc("chatroom1"));
+
+    const messagesRef2 = ref(database, "messages/chatroom2/");
+    onChildAdded(messagesRef2, () => receiveMsgFunc("chatroom2"));
+  }
+});
 
 
 // Check if user is logged in or not
@@ -209,11 +211,27 @@ const validateField = (field) => {
 loginBtn.addEventListener("click", loginUser);
 logoutBtn.addEventListener("click", logoutUser);
 
+sendMsgBtn1.addEventListener("click", () => {
+  const activeChatroomId = document.querySelector('.active-chatroom')?.getAttribute('data-chatroom'); // Added nullish coalescing operator
+  if (activeChatroomId) {
+    sendMsgFunc(activeChatroomId);
+  } else {
+    console.error('No active chatroom found');
+  }
+});
+
+sendMsgBtn2.addEventListener("click", () => {
+  const activeChatroomId = document.querySelector('.active-chatroom')?.getAttribute('data-chatroom'); // Added nullish coalescing operator
+  if (activeChatroomId) {
+    sendMsgFunc(activeChatroomId);
+  } else {
+    console.error('No active chatroom found');
+  }
+});
+
 chatroomsList.addEventListener('click', (event) => {
-  console.log('Button clicked'); // Debugging statement
   if (event.target.classList.contains('chatroomBtn')) {
     const chatroomId = event.target.dataset.chatroom;
-    console.log('Selected chatroom:', chatroomId); // Debugging statement
     switchChatroom(chatroomId);
     receiveMsgFunc(chatroomId);
   }
