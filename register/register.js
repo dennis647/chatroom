@@ -43,9 +43,13 @@ const registerUser = () => {
 
   // Register the user in firebase
   auth.createUserWithEmailAndPassword(email, newUserPassword)
-  .then(function() {
+  .then((userCredential) => {
+    var user = userCredential.user;
 
-    var user = auth.currentUser;
+    user.updateProfile({
+      displayName: newUsername
+    })
+    .then(() => {
 
     var dbRef = db.ref();
     var userData = {
@@ -59,11 +63,11 @@ const registerUser = () => {
     alert(`User has been created`);
 
   })
+  })
   .catch(function(error) {
     var error_msg = error.message;
-
     alert(error_msg)
-  })
+  });
   }
 
   // Validate if email is a valid email

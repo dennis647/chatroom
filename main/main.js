@@ -116,17 +116,24 @@ const sendMsgFunc = (chatroomId) => {
         const messageContainer = document.getElementById(`messageContainer${chatroomId}`);
 
         // Create a message div
-        var messageElement = document.createElement("div");
-        messageElement.textContent = `${userName}: ${message}`;
-        messageElement.classList.add("sendMessage-bubble", "user-message");
+        var sentMessageElement = document.createElement("div");
+        sentMessageElement.textContent = `${userName}: ${message}`;
+        sentMessageElement.classList.add("sendMessage-bubble", "user-message");
 
-        messageContainer.appendChild(messageElement);
+        messageContainer.appendChild(sentMessageElement);
 
-        // Save the message 
+        // Save the message
         set(ref(database, `messages/${chatroomId}/` + timestamp), {
           userName: userName,
-          message: message
+          message: message,
+          timestamp: timestamp
+        })
+        .catch(function (error) {
+          alert("Error fetching user data: " + error.message);
         });
+
+        messageText.value = "";
+
       })
       .catch(function (error) {
         alert("Error fetching user data: " + error.message);
@@ -136,25 +143,42 @@ const sendMsgFunc = (chatroomId) => {
   }
 };
 
-
+const processedMessages = new Set();
 
 // Reciving messages
 const receiveMsgFunc = (chatroomId) => {
-  var messageElement = document.createElement("div");
-
+  const messageContainer = document.getElementById(`messageContainer${chatroomId}`);
   const messagesRef = ref(database, `messages/${chatroomId}/`);
+  
+
   onChildAdded(messagesRef, (snapshot) => {
-    var messageData = snapshot.val();
-    var userName = messageData.userName;
-    var message = messageData.message;
+    const messageId = snapshot.key;
+    if (processedMessages.has(messageId)) {
+      return;
+    }
 
-    messageElement.textContent = `${userName}: ${message}`;
-    messageElement.classList.add("reciveMessage-bubble");
+    processedMessages.add(messageId);
 
-    const messageContainer = document.getElementById(`messageContainer${chatroomId}`);
-    messageContainer.appendChild(messageElement);
+    const messageData = snapshot.val();
+    const userName = messageData.userName;
+    const message = messageData.message;
+      
+      // Check if the message is sent by another user
+      if (userName !== auth.currentUser.displayName)  {
+      const messageElement = document.createElement("div");
+      messageElement.textContent = `${userName}: ${message}`;
+      messageElement.classList.add("reciveMessage-bubble");
+    
+      
+      messageContainer.appendChild(messageElement);
+    }
+      
+  }, (error) => {
+    console.error("Error fetching messages:", error);
   });
 };
+
+
 
 
 // Update UI based on the user's login state
@@ -179,7 +203,6 @@ const updateUI = (user) => {
     userRef.once("value")
       .then(function (snapshot) {
         var userData = snapshot.val();
-
         loginTxt.innerHTML = `Welcome back, ${userData.newUsername}`;
         logoutBtn.style.display="";
 
@@ -212,7 +235,7 @@ loginBtn.addEventListener("click", loginUser);
 logoutBtn.addEventListener("click", logoutUser);
 
 sendMsgBtn1.addEventListener("click", () => {
-  const activeChatroomId = document.querySelector('.active-chatroom')?.getAttribute('data-chatroom'); // Added nullish coalescing operator
+  const activeChatroomId = document.querySelector('.active-chatroom')?.getAttribute('data-chatroom');
   if (activeChatroomId) {
     sendMsgFunc(activeChatroomId);
   } else {
@@ -221,7 +244,7 @@ sendMsgBtn1.addEventListener("click", () => {
 });
 
 sendMsgBtn2.addEventListener("click", () => {
-  const activeChatroomId = document.querySelector('.active-chatroom')?.getAttribute('data-chatroom'); // Added nullish coalescing operator
+  const activeChatroomId = document.querySelector('.active-chatroom')?.getAttribute('data-chatroom');
   if (activeChatroomId) {
     sendMsgFunc(activeChatroomId);
   } else {
