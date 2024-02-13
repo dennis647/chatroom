@@ -115,13 +115,6 @@ const sendMsgFunc = (chatroomId) => {
         var userName = snapshot.val().newUsername;
         const messageContainer = document.getElementById(`messageContainer${chatroomId}`);
 
-        // Create a message div
-        var sentMessageElement = document.createElement("div");
-        sentMessageElement.textContent = `${userName}: ${message}`;
-        sentMessageElement.classList.add("sendMessage-bubble", "user-message");
-
-        messageContainer.appendChild(sentMessageElement);
-
         // Save the message
         set(ref(database, `messages/${chatroomId}/` + timestamp), {
           userName: userName,
@@ -149,37 +142,33 @@ const processedMessages = new Set();
 const receiveMsgFunc = (chatroomId) => {
   const messageContainer = document.getElementById(`messageContainer${chatroomId}`);
   const messagesRef = ref(database, `messages/${chatroomId}/`);
-  
 
   onChildAdded(messagesRef, (snapshot) => {
     const messageId = snapshot.key;
-    if (processedMessages.has(messageId)) {
-      return;
-    }
+    if (!processedMessages.has(messageId)) {
+      processedMessages.add(messageId);
 
-    processedMessages.add(messageId);
+      const messageData = snapshot.val();
+      const userName = messageData.userName;
+      const message = messageData.message;
+      const timestamp = messageData.timestamp;
 
-    const messageData = snapshot.val();
-    const userName = messageData.userName;
-    const message = messageData.message;
-      
-      // Check if the message is sent by another user
-      if (userName !== auth.currentUser.displayName)  {
       const messageElement = document.createElement("div");
       messageElement.textContent = `${userName}: ${message}`;
       messageElement.classList.add("reciveMessage-bubble");
-    
-      
+
+      // Check if the message is sent by the current user
+      if (auth.currentUser && userName === auth.currentUser.displayName) {
+        messageElement.classList.add("user-message");
+        messageElement.classList.add("sendMessage-bubble");
+      }
+
       messageContainer.appendChild(messageElement);
     }
-      
   }, (error) => {
     console.error("Error fetching messages:", error);
   });
 };
-
-
-
 
 // Update UI based on the user's login state
 auth.onAuthStateChanged((user) => {
@@ -220,6 +209,10 @@ const updateUI = (user) => {
 
 auth.onAuthStateChanged((user) => {
   updateUI(user);
+  if (user) {
+    receiveMsgFunc("chatroom1");
+    receiveMsgFunc("chatroom2");
+  }
 });
 
 const validateField = (field) => {

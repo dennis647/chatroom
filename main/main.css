@@ -32,6 +32,11 @@ body {
   margin-top: 34vh;
 }
 
+.chatroomTitle {
+  text-align: center;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .chatroomBtn {
   display: block;
   width: 100%;
@@ -62,14 +67,14 @@ body {
 
 #chatroom1 {
   flex: 2;
-  background-color: tan;
+  background-color: rgb(210, 200, 187);
   border-radius: 10px;
   margin-left: 10vh;
   margin-top: 1vh;
   padding: 12px;
   max-width: 140vh;
   height: 93vh;
-  border: 3px solid rgb(186, 159, 123);
+  border: 3px solid rgb(121, 116, 109);
 }
 
 #chatroom2 {
@@ -83,7 +88,6 @@ body {
   height: 93vh;
   border: 3px solid rgb(186, 159, 123);
 }
-
 
 .messageContainer {
   padding: 10px;
@@ -105,10 +109,11 @@ body {
   background-color: rgb(67, 238, 147);
   border-radius: 8px;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 10px ;
   max-width: 70%;
   margin-left: auto;
   margin-right: 0px;
+  
 }
 
 .user-message {
@@ -120,20 +125,38 @@ body {
 }
 
 .messageInputTxt {
-  background-color: rgb(238, 234, 234);
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 25px;
   padding: 15px;
-  border-radius: 18px;
-  margin-top: 5px;
-  height: 5vh;
-  width: 124vh;
-  overflow-y: auto;
+  margin-top: 10px;
+  height: 50px;
+  width: 60vw;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.messageInputTxt:focus {
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 10px rgba(102, 175, 233, 0.6);
 }
 
 .messageInputBtn {
-  height: 6vh;
-  width: 10vh;
-  border-radius: 18px;
+  height: 70px; /* Match input height */
+  width: 120px; 
+  border-radius: 25px; /* Match input border radius */
   padding: 15px;
-  background-color: rgb(199, 197, 197);
+  margin-left: 10px;
+  background-color: #4CAF50; /* Green color */
+  color: #fff; /* White text */
+  font-size: 16px;
+  border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.messageInputBtn:hover {
+  background-color: #45a049; /* Darker green on hover */
 }
