@@ -107,6 +107,11 @@ const sendMsgFunc = (chatroomId) => {
   var message = messageText.value;
   var timestamp = new Date().getTime();
 
+  // If message is blank, don't send anything
+  if (message.trim().length === 0) {
+    return;
+  }
+
   // Retrieve the username from DB
   if (auth.currentUser) {
     var userRef = db.ref("users/" + auth.currentUser.uid);
@@ -153,9 +158,11 @@ const receiveMsgFunc = (chatroomId) => {
       const message = messageData.message;
       const timestamp = messageData.timestamp;
 
+      // Create message element for reciving msg
       const messageElement = document.createElement("div");
       messageElement.textContent = `${userName}: ${message}`;
       messageElement.classList.add("reciveMessage-bubble");
+      
 
       // Check if the message is sent by the current user
       if (auth.currentUser && userName === auth.currentUser.displayName) {

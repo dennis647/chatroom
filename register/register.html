@@ -8,18 +8,13 @@
     <link rel="stylesheet" href="register.css" type="text/css">
 </head>
 <body>
-
-    <h3>Registrer ny bruker</h3>
-    <br>
-
-    <div>
-    
+  <div class="Login-box">
+    <h3 id="header-box">Registrer ny bruker</h3>
       <input type="text" placeholder="E-mail" id="registerEmail" class="register"><br>
       <input type="text" placeholder="Brukernavn" id="registerUsern" class="register"><br>
       <input type="password" placeholder="Passord" id="registerPassword" class="register"><br>
-      <input type="button" value="Registrer" id="registerBtn" style="padding: 10px; border-radius: 5px; background-color: rgb(195, 198, 198);">
-      
-    </div>
+      <input type="button" value="Registrer" id="registerBtn">
+  </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
