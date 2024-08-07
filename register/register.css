@@ -63,3 +63,11 @@ body {
   box-shadow: 0 0.1rem #dfd9d9;
   transform: translateY(0.1rem);
 }
+
+#existingUserLink {
+  margin-top: -10px;
+}
+
+#existingUserTxt {
+
+}

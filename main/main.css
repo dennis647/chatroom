@@ -27,22 +27,29 @@ body {
   padding: 6px;
   margin-bottom: 3px;
   border-radius: 10px;
-  border: 0px;
+  border: 1px solid gray;
+  background-color: rgb(5, 10, 68, .02);
 }
 
 #loginBtn {
   display: block;
   width: 70px;
   height: 25px;
-  border: 2px solid lightgray;
+  border: 1px solid gray;
   border-radius: 5px;
   transition: 0.5s ease;
+  margin-top: 2px;
+  background-color: rgb(5, 10, 68, .02);
 }
 
 #loginBtn:hover {
-  background-color: #d5e1ef;
-  border: 2px solid darkgray;
+  background-color: rgb(5, 10, 68, 0.1);
+  border: 1px solid darkgray;
   transition: 0.5s ease;
+}
+
+#wrongUserPass {
+  font-size: 12px;
 }
 
 #registerTxt {
@@ -69,22 +76,23 @@ body {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #fff;
-  border: 2px solid #ccc;
+  background-color: rgb(5, 10, 68, .02);
+  border: 1px solid grey;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.5s ease;
 }
 
 .chatroomBtn:hover {
-  background-color: #f0f0f0;
-  border: 2px solid darkgray;
+  background-color: rgb(5, 10, 68, .1);
+  border: 1px solid darkgray;
   transition: 0.5s ease-in-out;
 }
 
 .txtspace {
   margin: 3px;
   padding: 0px;
+  margin-left: 12px;
 }
 
 .chatroom {

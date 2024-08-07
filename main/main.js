@@ -7,6 +7,7 @@ const loginBtn = document.getElementById("loginBtn");
 const loginTxt = document.getElementById("loginTxt");
 const logoutBtn = document.getElementById("logoutBtn");
 const chatroomsList = document.getElementById("chatroomsList");
+const wrongUserOrPass = document.getElementById("wrongUserPass");
 
 // Firebase config
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js';
@@ -38,7 +39,7 @@ const loginUser = () => {
   const Password = enterPassword.value;
 
   if (validateField(Email) == false || validateField(Password) == false) {
-    alert('You need to type in a username & password');
+    wrongUserOrPass.innerHTML = 'You need to type in a username & password';
     return;
 }
 
